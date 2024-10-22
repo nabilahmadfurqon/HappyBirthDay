@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Travel Grid Layout</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans|Sacramento"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <!-- Link your compiled CSS file here -->
+  </head>
+  <body>
+    <div id="alert-dialog" class="alert-dialog">
+      <div class="alert-content">
+        <h2>Selamat Ulang Tahun Sayang</h2>
+        <p>Coba Isi Wish Kamu Disini</p>
+        <input
+          type="text"
+          id="whatsapp-input"
+          placeholder="Type your message here"
+        />
+        <button id="submit-button">Kirim</button>
+      </div>
+    </div>
+    <audio id="background-audio" loop>
+      <source src="lagu.mp3" type="audio/mp3" />
+      Your browser does not support the audio tag.
+    </audio>
+
+    <script>
+      // Open (or create) the database
+      let db;
+      const request = indexedDB.open("messagesDB", 1);
+
+      request.onupgradeneeded = function (event) {
+        db = event.target.result;
+        db.createObjectStore("messages", {
+          keyPath: "id",
+          autoIncrement: true,
+        });
+      };
+
+      request.onsuccess = function (event) {
+        db = event.target.result;
+      };
+
+      request.onerror = function (event) {
+        console.error("Database error:", event.target.errorCode);
+      };
+
+      // Function to save message
+      function saveMessage(message) {
+        const transaction = db.transaction(["messages"], "readwrite");
+        const objectStore = transaction.objectStore("messages");
+        objectStore.add({ message, timestamp: new Date().toISOString() });
+      }
+
+      // Submit button click event
+      document.getElementById("submit-button").onclick = function () {
+        const inputField = document.getElementById("whatsapp-input");
+        const message = inputField.value;
+
+        if (message.trim() === "") {
+          alert("Isi Sayang Ku"); // Alert if input is empty
+          return; // Exit if the input is empty
+        }
+
+        // Save the message to IndexedDB
+        saveMessage(message);
+
+        // Play audio when the message is valid
+        const audio = document.getElementById("background-audio");
+        audio.play().catch(function (error) {
+          console.log("Audio play failed:", error);
+        });
+
+        // Hide the alert dialog
+        const alertDialog = document.getElementById("alert-dialog");
+        alertDialog.style.display = "none";
+
+        // Clear the input field after submission
+        inputField.value = "";
+      };
+      function toggleImages(container) {
+        const image1 = container.querySelector(".image-1");
+        const image2 = container.querySelector(".image-2");
+
+        // Toggle shifted class
+        image1.classList.toggle("shifted");
+        image2.classList.toggle("shifted");
+      }
+    </script>
+    <div class="main-container">
+      <div class="grid-container">
+        <div class="card card--2x">
+          <div class="card__content big-script padding-large">
+            <p>Happy Birthday Sayang</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card__image">
+            <img src="gambar 1.jpg" />
+          </div>
+        </div>
+        <div class="card">
+          <div class="card__image">
+            <img src="gambar 2.jpg" />
+          </div>
+        </div>
+        <div class="card">
+          <div class="card__content">
+            <p>
+              <em>The first meeting carried me away in first love</em>
+            </p>
+            <p>— 22 March 2024</p>
+          </div>
+        </div>
+        <div class="card card--horizontal">
+          <div class="card__image">
+            <video width="750" autoplay muted loop>
+              <source src="Vidio 1.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+        <div class="card card--featured">
+          <div class="card__side-by-side--m" onclick="toggleImages(this)">
+            <div class="card__image image-1">
+              <video width="750" autoplay muted loop>
+                <source src="vidio kue (2).mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+            <div class="card__image image-2">
+              <img src="gambar 14.png" alt="Gambar Kedua" />
+            </div>
+          </div>
+        </div>
+        <div class="card card--vertical">
+          <div class="card__image">
+            <img src="gambar 5.jpg" />
+          </div>
+        </div>
+        <div class="card">
+          <div class="card__image">
+            <img src="gambar 3.jpg" />
+          </div>
+        </div>
+        <div class="card card--horizontal">
+          <div class="card__side-by-side">
+            <div class="card__image">
+              <img src="gambar 4.jpg" />
+            </div>
+            <div class="card__content">
+              <p>— 18 Mei 2024</p>
+              <p>
+                <em
+                  >You are the essence of all my sweet dreams, and every second
+                  with you is a new episode in our love movie.</em
+                >
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="card card--vertical">
+          <div class="card__image">
+            <img src="gambar 6.jpg" />
+          </div>
+        </div>
+        <div class="card">
+          <div class="card__image">
+            <img src="gambar 7.jpg" />
+          </div>
+        </div>
+        <div class="card">
+          <div class="card__content">
+            <p>
+              <em
+                >The most beautiful thing is that I can introduce you to my
+                family.</em
+              >
+            </p>
+            <p>— 20 July 2024</p>
+          </div>
+        </div>
+        <div class="card card--2x">
+          <div class="card__image">
+            <img src="gambar 8.jpg" />
+          </div>
+        </div>
+        <div class="card card--horizontal card--frameless">
+          <div class="card__content big-script">
+            <p>Octavia Nuranfedra ramadhani</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card__image">
+            <img src="gambar 11.jpg" />
+          </div>
+        </div>
+        <div class="card card--horizontal">
+          <div class="card__image">
+            <video width="750" autoplay muted loop>
+              <source src="Vidio 3.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card__image">
+            <img src="gambar 12.jpg" />
+          </div>
+        </div>
+        <div class="card">
+          <div class="card__content">
+            <p>
+              <em
+                >When the world feels heavy, remember that I will always be
+                behind you, ready to lift the burden you carry.
+              </em>
+            </p>
+            <p>— 23 October 2024</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card__image">
+            <img src="gambar 13.jpg" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
